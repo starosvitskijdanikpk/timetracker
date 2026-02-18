@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: timetracker-api
+    env: node
+    buildCommand: cd server && npm install && npm run build
+    startCommand: cd server && npm run deploy
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: timetracker-client
+    env: static
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
