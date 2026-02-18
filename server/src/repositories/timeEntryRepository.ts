@@ -9,9 +9,9 @@ export async function findByDate(
   const month = date.getMonth();
   const day = date.getDate();
   
-  // Create start and end of day in local timezone
-  const startOfDay = new Date(year, month, day, 0, 0, 0, 0);
-  const endOfDay = new Date(year, month, day, 23, 59, 59, 999);
+  // Create start and end of day in UTC timezone
+  const startOfDay = new Date(Date.UTC(year, month, day, 0, 0, 0, 0));
+  const endOfDay = new Date(Date.UTC(year, month, day, 23, 59, 59, 999));
 
   return prisma.timeEntry.findMany({
     where: {
@@ -43,12 +43,9 @@ export async function findByDateRange(
   from: Date,
   to: Date,
 ): Promise<(TimeEntry & { project: Project | null })[]> {
-  // Ensure we capture the full day range
-  const startOfDay = new Date(from);
-  startOfDay.setHours(0, 0, 0, 0);
-  
-  const endOfDay = new Date(to);
-  endOfDay.setHours(23, 59, 59, 999);
+  // Ensure we capture full day range in UTC timezone
+  const startOfDay = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate(), 0, 0, 0, 0));
+  const endOfDay = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate(), 23, 59, 59, 999));
 
   return prisma.timeEntry.findMany({
     where: {
