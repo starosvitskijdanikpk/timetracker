@@ -9,9 +9,9 @@ export async function getByDate(
 ): Promise<void> {
   try {
     const dateParam = (req.query.date as string | undefined) ?? "";
-    const dateStr =
-      dateParam ||
-      new Date().toISOString().slice(0, 10); // YYYY-MM-DD for today
+    const now = new Date();
+  const localDateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  const dateStr = dateParam || localDateStr;
     const entries = await timeEntryService.getByDate(dateStr);
     const body: ApiResponse = { data: entries };
     res.json(body);
