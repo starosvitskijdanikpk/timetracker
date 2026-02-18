@@ -35,16 +35,16 @@ async function cleanupUnusedTaskNames(taskName: string) {
   }
 }
 
-export async function getByDate(dateStr: string): Promise<TimeEntryWithProject[]> {
+export async function getByDate(dateStr: string, tzOffsetMinutes: number = 0): Promise<TimeEntryWithProject[]> {
   const date = parseDateOnly(dateStr);
-  return findByDate(date);
+  return findByDate(date, tzOffsetMinutes);
 }
 
 export async function getActive(): Promise<TimeEntryWithProject | null> {
   return findActive();
 }
 
-export async function getReport(fromStr: string, toStr: string): Promise<{
+export async function getReport(fromStr: string, toStr: string, tzOffsetMinutes: number = 0): Promise<{
   entries: TimeEntryWithProject[];
   totalByProject: { project: Project | null; totalDuration: number }[];
   grandTotal: number;
@@ -52,7 +52,7 @@ export async function getReport(fromStr: string, toStr: string): Promise<{
   const from = parseDateOnly(fromStr);
   const to = parseDateOnly(toStr);
 
-  const entries = await findByDateRange(from, to);
+  const entries = await findByDateRange(from, to, tzOffsetMinutes);
 
   const totals = new Map<string | null, { project: Project | null; total: number }>();
   let grandTotal = 0;

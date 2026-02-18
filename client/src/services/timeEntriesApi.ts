@@ -3,7 +3,8 @@ import type { TimeEntry, ReportData } from "../types/index.js";
 
 export const timeEntriesApi = {
   getByDate: async (date: string): Promise<TimeEntry[]> => {
-    const response = await api.get(`/api/time-entries?date=${date}`);
+    const offset = new Date().getTimezoneOffset(); // returns -120 for UTC+2
+    const response = await api.get(`/api/time-entries?date=${date}&tzOffset=${offset}`);
     return response.data.data; // Return array directly, not wrapped
   },
   
@@ -38,7 +39,8 @@ export const timeEntriesApi = {
   },
 
   getReport: async (from: string, to: string): Promise<ReportData> => {
-    const response = await api.get(`/api/time-entries/report?from=${from}&to=${to}`);
+    const offset = new Date().getTimezoneOffset(); // returns -120 for UTC+2
+    const response = await api.get(`/api/time-entries/report?from=${from}&to=${to}&tzOffset=${offset}`);
     console.log('[API] Report response:', response.data);
     return response.data.data;
   },

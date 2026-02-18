@@ -9,10 +9,14 @@ export async function getByDate(
 ): Promise<void> {
   try {
     const dateParam = (req.query.date as string | undefined) ?? "";
+    const tzOffsetParam = (req.query.tzOffset as string | undefined) ?? "0";
+    const tzOffsetMinutes = parseInt(tzOffsetParam, 10) || 0;
+    
     const now = new Date();
   const localDateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
   const dateStr = dateParam || localDateStr;
-    const entries = await timeEntryService.getByDate(dateStr);
+    
+    const entries = await timeEntryService.getByDate(dateStr, tzOffsetMinutes);
     const body: ApiResponse = { data: entries };
     res.json(body);
   } catch (err) {
@@ -42,10 +46,13 @@ export async function getReport(
   try {
     const from = req.query.from as string | undefined;
     const to = req.query.to as string | undefined;
+    const tzOffsetParam = (req.query.tzOffset as string | undefined) ?? "0";
+    const tzOffsetMinutes = parseInt(tzOffsetParam, 10) || 0;
+    
     if (!from || !to) {
       throw new Error("from and to query parameters are required");
     }
-    const report = await timeEntryService.getReport(from, to);
+    const report = await timeEntryService.getReport(from, to, tzOffsetMinutes);
     const body: ApiResponse = { data: report };
     res.json(body);
   } catch (err) {
