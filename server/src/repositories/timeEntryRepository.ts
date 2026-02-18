@@ -1,0 +1,131 @@
+import { prisma } from "../prismaClient.js";
+import type { TimeEntry, Project } from "@prisma/client";
+
+export async function findByDate(
+  date: Date,
+): Promise<(TimeEntry & { project: Project | null })[]> {
+  // Get the date string in local timezone (YYYY-MM-DD format)
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  
+  // Create start and end of day in local timezone
+  const startOfDay = new Date(year, month, day, 0, 0, 0, 0);
+  const endOfDay = new Date(year, month, day, 23, 59, 59, 999);
+
+  return prisma.timeEntry.findMany({
+    where: {
+      startTime: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    },
+    include: {
+      project: true,
+    },
+    orderBy: {
+      startTime: "asc",
+    },
+  });
+}
+
+export async function findActive(): Promise<
+  (TimeEntry & { project: Project | null }) | null
+> {
+  return prisma.timeEntry.findFirst({
+    where: { endTime: null },
+    include: { project: true },
+    orderBy: { startTime: "asc" },
+  });
+}
+
+export async function findByDateRange(
+  from: Date,
+  to: Date,
+): Promise<(TimeEntry & { project: Project | null })[]> {
+  // Ensure we capture the full day range
+  const startOfDay = new Date(from);
+  startOfDay.setHours(0, 0, 0, 0);
+  
+  const endOfDay = new Date(to);
+  endOfDay.setHours(23, 59, 59, 999);
+
+  return prisma.timeEntry.findMany({
+    where: {
+      startTime: {
+        gte: startOfDay,
+        lte: endOfDay,
+      },
+    },
+    include: {
+      project: true,
+    },
+    orderBy: {
+      startTime: "asc",
+    },
+  });
+}
+
+export async function findById(
+  id: string,
+): Promise<(TimeEntry & { project: Project | null }) | null> {
+  return prisma.timeEntry.findUnique({
+    where: { id },
+    include: { project: true },
+  });
+}
+
+export async function create(data: {
+  taskName: string;
+  projectId?: string;
+  startTime: Date;
+}): Promise<TimeEntry> {
+  return prisma.timeEntry.create({
+    data: {
+      taskName: data.taskName,
+      projectId: data.projectId ?? null,
+      startTime: data.startTime,
+    },
+  });
+}
+
+export async function update(
+  id: string,
+  data: {
+    taskName?: string;
+    projectId?: string;
+    startTime?: Date;
+    endTime?: Date | null;
+    duration?: number | null;
+  },
+): Promise<TimeEntry> {
+  return prisma.timeEntry.update({
+    where: { id },
+    data: {
+      ...data,
+      projectId: data.projectId ?? undefined,
+    },
+  });
+}
+
+export async function stopActive(
+  id: string,
+  endTime: Date,
+  duration: number,
+): Promise<TimeEntry> {
+  return prisma.timeEntry.update({
+    where: { id },
+    data: {
+      endTime,
+      duration,
+    },
+  });
+}
+
+export async function deleteById(id: string): Promise<void> {
+  await prisma.timeEntry.delete({
+    where: { id },
+  });
+}
+
+

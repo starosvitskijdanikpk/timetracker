@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "dotenv": ["./server/node_modules/dotenv"],
+      "@prisma/config": ["./server/node_modules/@prisma/config/dist/index.d.ts"]
+    }
+  },
+  "include": ["prisma.config.ts"]
+}
