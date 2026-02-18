@@ -27,7 +27,7 @@ export function TopTimerBar() {
 
   if (!activeEntry) {
     return (
-      <div className="sticky top-0 z-50 bg-void/85 backdrop-blur-xl border-b border-white/[0.06] px-8 py-3.5 flex items-center gap-5">
+      <div className="sticky top-0 z-50 bg-void/85 backdrop-blur-xl border-b border-white/[0.06] px-4 md:px-8 py-3.5 flex items-center gap-5">
         {/* Status indicator */}
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -47,7 +47,7 @@ export function TopTimerBar() {
   }
 
   return (
-    <div className="sticky top-0 z-50 bg-void/85 backdrop-blur-xl border-b border-white/[0.06] px-8 py-3.5 flex items-center gap-0">
+    <div className="sticky top-0 z-50 bg-void/85 backdrop-blur-xl border-b border-white/[0.06] px-4 md:px-8 py-3.5 flex items-center gap-0">
       {/* Status with pulsing dot */}
       <div className="flex items-center gap-2">
         <div className="relative">
@@ -71,7 +71,7 @@ export function TopTimerBar() {
 
       {/* Project chip - only when active and has project */}
       {activeEntry?.project && (
-        <div className="flex items-center gap-1.5 border rounded-full px-3 py-1 text-xs font-medium ml-3"
+        <div className="hidden sm:flex items-center gap-1.5 border rounded-full px-3 py-1 text-xs font-medium ml-3"
           style={{ 
             borderColor: `${activeEntry.project.color}30`,
             color: activeEntry.project.color 

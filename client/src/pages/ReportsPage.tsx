@@ -72,7 +72,7 @@ export const ReportsPage = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl">
+    <div className="p-4 md:p-8 max-w-4xl">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-xl font-semibold text-primary">

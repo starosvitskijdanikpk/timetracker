@@ -42,7 +42,7 @@ export const TaskInputForm = ({ onEntryStarted }: TaskInputFormProps) => {
       {/* Top gradient line */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-amber/50 to-transparent"></div>
       
-      <form onSubmit={handleSubmit} className="flex items-center gap-3">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="flex-1">
           <AutocompleteInput value={taskName} onChange={setTaskName} />
         </div>

@@ -63,7 +63,7 @@ export const ReportView = ({ reportData, isLoading }: ReportViewProps) => {
       </div>
 
       {/* Report table */}
-      <div className="bg-card rounded-xl border border-white/[0.06] overflow-hidden">
+      <div className="bg-card rounded-xl border border-white/[0.06] overflow-hidden overflow-x-auto">
         <table className="w-full">
           {/* Header */}
           <thead>

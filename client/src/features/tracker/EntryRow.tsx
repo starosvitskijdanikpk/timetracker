@@ -133,7 +133,7 @@ const displayDuration =
         : formatDuration(0);
 
   return (
-    <div className="grid grid-cols-[1fr_auto_auto_auto_auto] items-center gap-3 px-4 py-3 hover:bg-card/50 transition-colors">
+    <div className="grid grid-cols-[1fr_auto_auto_auto] md:grid-cols-[1fr_auto_auto_auto_auto] items-center gap-3 px-4 py-3 hover:bg-card/50 transition-colors">
       {isEditing ? (
         <div className="col-span-5 grid grid-cols-[1fr_auto_auto_auto_auto] gap-3 items-center">
           {/* Task name input */}
@@ -184,7 +184,7 @@ const displayDuration =
           </div>
 
           {/* Time range */}
-          <div className="text-xs text-dim">
+          <div className="hidden md:block text-xs text-dim">
             {formatTimeRange()}
           </div>
 
