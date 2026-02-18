@@ -12,8 +12,8 @@ export async function findByDate(
   
   // Apply timezone offset to UTC boundaries
   const offsetMs = tzOffsetMinutes * 60 * 1000;
-  const startOfDay = new Date(Date.UTC(year, month, day, 0, 0, 0, 0) - offsetMs);
-  const endOfDay = new Date(Date.UTC(year, month, day, 23, 59, 59, 999) - offsetMs);
+  const startOfDay = new Date(Date.UTC(year, month, day, 0, 0, 0, 0) + offsetMs);
+  const endOfDay = new Date(Date.UTC(year, month, day, 23, 59, 59, 999) + offsetMs);
 
   return prisma.timeEntry.findMany({
     where: {
@@ -48,8 +48,8 @@ export async function findByDateRange(
 ): Promise<(TimeEntry & { project: Project | null })[]> {
   // Apply timezone offset to UTC boundaries
   const offsetMs = tzOffsetMinutes * 60 * 1000;
-  const startOfDay = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate(), 0, 0, 0, 0) - offsetMs);
-  const endOfDay = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate(), 23, 59, 59, 999) - offsetMs);
+  const startOfDay = new Date(Date.UTC(from.getUTCFullYear(), from.getUTCMonth(), from.getUTCDate(), 0, 0, 0, 0) + offsetMs);
+  const endOfDay = new Date(Date.UTC(to.getUTCFullYear(), to.getUTCMonth(), to.getUTCDate(), 23, 59, 59, 999) + offsetMs);
 
   return prisma.timeEntry.findMany({
     where: {
