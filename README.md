@@ -1,10 +1,17 @@
 # TimeTracker
 
-Time tracking web application built with React, Express and Prisma.
+Time tracking web application.
 
 ## Live Demo
  Frontend: https://timetracker-wlkr.onrender.com  
  Backend API: https://timetracker-api-ezv3.onrender.com
+
+## Tech Stack
+- React
+- TypeScript
+- Node.js
+- PostgreSQL
+- Prisma
 
 ## Setup
 
